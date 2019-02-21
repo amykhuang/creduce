@@ -66,8 +66,8 @@ sub transform ($$$) {
     my %defs;
     open INF, "$unifdef -s $cfile 2>/dev/null |" or die;
     while (my $line = <INF>) {
-	chomp $line;
-	$defs{$line} = 1;
+        chomp $line;
+        $defs{$line} = 1;
     }
     close INF;
     my @deflist = sort keys %defs;
@@ -75,14 +75,14 @@ sub transform ($$$) {
 
     # remove constant ifs
     if ($index == -1) {
-	my $cmd = "$unifdef -k -o $tmpfile $cfile >/dev/null 2>&1";
-	runit ($cmd);
-	$index++;
-	if (compare($cfile, $tmpfile) == 0) {
-	    goto AGAIN;
+        my $cmd = "$unifdef -k -o $tmpfile $cfile >/dev/null 2>&1";
+        runit ($cmd);
+        $index++;
+        if (compare($cfile, $tmpfile) == 0) {
+            goto AGAIN;
         }
-	File::Copy::move($tmpfile, $cfile);
-	return ($OK, \$index);
+        File::Copy::move($tmpfile, $cfile);
+        return ($OK, \$index);
     }
 
   AGAIN:
