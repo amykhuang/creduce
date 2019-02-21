@@ -44,10 +44,12 @@ sub do_transform($$) {
     while (my $line = <INF>) {
         if ($line =~ m/^\s*#\s*include/) {
             $includes++;
-            if ($includes == $index) {
-                $matched = 1;
-                next;
-            }
+            $matched = 1;
+            next;
+            # if ($includes == $index) {
+            #     $matched = 1;
+            #     next;
+            # }
         }
         print OUTF $line;
     }
