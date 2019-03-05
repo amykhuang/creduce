@@ -403,7 +403,7 @@ static void rm_tok_pattern(int idx) {
 // todo: handle undefinition, redefinition, and other cases
 // fixme: this is just extremely hacky-- partial preprocessing should be done by
 // a separate tool that resembles unifdef
-void replace_macro(int i) {
+void replace_macro(int i, int start) {
   int initial = i;
   char *macro = tok_list[i].str;
   // printf("replacing macro '%s'\n", macro);
@@ -420,7 +420,7 @@ void replace_macro(int i) {
       int y;
       for (y = i; y < end; ++y)
         printf("%s", tok_list[y].str);
-    } else {
+    } else if (x < start || x > end) {
       printf("%s", tok_list[x].str);
     }
   }
@@ -431,6 +431,7 @@ void define(int tok_index) {
   int found = 0;
   for (i = 0; i < toks; ++i) {
     if (strcmp(tok_list[i].str, "#") == 0) {
+      int start = i;
       i++;
       while (tok_list[i].kind == TOK_WS)
         i++;
@@ -448,7 +449,7 @@ void define(int tok_index) {
       if (!used)
         continue;
       if (found == tok_index) {
-        replace_macro(i);
+        replace_macro(i, start);
         exit(OK);
       }
       found++;
