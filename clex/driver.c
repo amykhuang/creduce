@@ -413,10 +413,10 @@ void replace_macro(int i) {
   int end = i;
   while (tok_list[end].kind != TOK_NEWLINE)
     end++;
+
   int x;
   for (x = 0; x < toks; ++x) {
-    if (x != initial &&
-        strcmp(tok_list[x].str, macro) == 0) {
+    if (strcmp(tok_list[x].str, macro) == 0 && x > end) {
       int y;
       for (y = i; y < end; ++y)
         printf("%s", tok_list[y].str);
